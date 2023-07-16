@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Detalhes do Produto</h1>
+
+<div>
+  <h2><%= anuncio.titulo %></h2>
+  <p><%= anuncio.descricao %></p>
+  <p>Preço: <%= anuncio.preco %></p>
+  <p>Categoria: <%= anuncio.categoria %></p>
+  <p>Contato: <%= anuncio.contato %></p>
+  
+  <% if (anuncio.imagem) { %>
+    <img src="/Imagens/<%= anuncio.imagem %>" alt="Imagem do Produto">
+  <% } %>
+</div>
+
+<% if (message) { %>
+  <p><%= message %></p>
+<% } %>
+</body>
+</html>
