@@ -1,4 +1,6 @@
 const Pessoa = require('../models/pessoaModel');
+const Anuncio = require('../models/anuncioModel');
+
 const connection = require('../models/db');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
@@ -23,8 +25,8 @@ exports.criarPessoa = (req, res) => {
         return res.status(500).json({ error: 'Erro ao criar a pessoa' });
       }
       
-      req.session.username = nome;
-      const successMessage = `Parabéns, ${nome}, seu cadastro foi realizado com sucesso!`;
+      req.session.username = usuario;
+      const successMessage = `Parabéns, ${usuario}, seu cadastro foi realizado com sucesso!`;
       res.render('telaPrincipal/telaPrincipal', { successMessage });
     });
   });
@@ -57,11 +59,21 @@ exports.login = (req, res) => {
       }
 
       if (isMatch) {
-        req.session.username = pessoa.nome;
+        req.session.username = pessoa.usuario;
         req.session.pessoa_idpessoa = pessoa.idpessoa;
-
-        const successMessage = `Parabéns, ${pessoa.nome}, você está logado!`;
-        res.render('telaPrincipal/telaPrincipal', { successMessage });
+    
+        // Obter os anúncios da pessoa logada usando o ID da pessoa
+        Anuncio.getAnunciosPorPessoa(pessoa.idpessoa, (err, anuncios) => {
+          if (err) {
+            console.error('Erro ao obter os anúncios da pessoa:', err);
+            return res.status(500).json({ error: 'Erro ao realizar o login' });
+          }
+    
+          console.log(anuncios); // Verificar a estrutura da variável anuncios
+    
+          const successMessage = `Parabéns, ${pessoa.usuario}, você está logado!`;
+          res.render('telaPrincipal/telaPrincipal', { successMessage, pessoaLogada: true, anuncios });
+        });
       } else {
         const message = 'Senha incorreta';
         res.render('telaPrincipal/login', { message }); // Renderizar a página de login com a mensagem
@@ -69,3 +81,25 @@ exports.login = (req, res) => {
     });
   });
 };
+exports.renderTelaPrincipal = (req, res) => {
+  // Obter os anúncios por categoria usando o modelo "Anuncio"
+  Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+    if (err) {
+      console.error('Erro ao obter os anúncios por categoria:', err);
+      // Tratar o erro de acordo com a lógica da sua aplicação
+      return res.status(500).json({ error: 'Erro ao obter os anúncios por categoria' });
+    }
+    console.log(anunciosPorCategoria); // Adicione esta linha para verificar os dados
+    // Renderizar a página "telaPrincipal" com os dados dos anúncios por categoria
+    res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria: anunciosPorCategoria });
+ // Verifique se a variável "anunciosPorCategoria" está sendo passada corretamente aqui
+  });
+};
+
+
+
+
+
+
+
+

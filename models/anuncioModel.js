@@ -1,6 +1,5 @@
 // Importe o módulo mysql2
 const mysql = require('mysql2');
-
 // Crie uma conexão com o banco de dados
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -8,14 +7,13 @@ const connection = mysql.createConnection({
   password: '02092005',
   database: 'ruralmarket'
 });
-connection.connect();
 
 const Anuncio = {
   saveAnuncio: (anuncioData, callback) => {
-    const { imagem, titulo, descricao, preco, categoria, contato, pessoa_idpessoa } = anuncioData;
+    const { imagem, titulo, descricao, preco, categoria_idcategoria, contato, pessoa_idpessoa } = anuncioData;
 
-    const query = 'INSERT INTO anuncio (imagem, titulo, descricao, preco, categoria, contato, pessoa_idpessoa) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    const values = [imagem, titulo, descricao, preco, categoria, contato, pessoa_idpessoa];
+    const query = 'INSERT INTO anuncio (imagem, titulo, descricao, preco, categoria_idcategoria, contato, pessoa_idpessoa) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    const values = [imagem, titulo, descricao, preco, categoria_idcategoria, contato, pessoa_idpessoa];
 
     connection.query(query, values, (err, results) => {
       if (err) {
@@ -27,10 +25,46 @@ const Anuncio = {
       return callback(null);
     });
   },
+  
+  getAnunciosPorCategoria: function (callback) {
+    const query = 'SELECT * FROM anuncio WHERE categoria_idcategoria IS NOT NULL';
+
+    connection.query(query, (err, results) => {
+      if (err) {
+        console.error('Erro ao obter os anúncios por categoria:', err);
+        return callback(err, null);
+      }
+
+      const anunciosPorCategoria = {};
+
+      results.forEach((anuncio) => {
+        const categoriaId = anuncio.categoria_idcategoria;
+        if (!anunciosPorCategoria[categoriaId]) {
+          anunciosPorCategoria[categoriaId] = [];
+        }
+        anunciosPorCategoria[categoriaId].push(anuncio);
+      });
+
+      // Corrigir a chamada do callback para passar os dados corretamente
+      callback(null, anunciosPorCategoria);
+    });
+  },
+  getAnunciosPorPessoa: (pessoaId, callback) => {
+    const query = 'SELECT * FROM anuncio WHERE pessoa_idpessoa = ?';
+    const values = [pessoaId];
+
+    connection.query(query, values, (err, results) => {
+      if (err) {
+        console.error('Erro ao obter os anúncios da pessoa:', err);
+        return callback(err, null);
+      }
+
+      // Retorne os anúncios da pessoa
+      callback(null, results);
+    });
+  },
   getDetalhes: (id, callback) => {
     // Lógica para obter os detalhes do anúncio com base no ID
-    // Consulte o banco de dados ou acesse uma API para obter os detalhes do anúncio
-    // Exemplo:
     const query = 'SELECT * FROM anuncio WHERE idanuncio = ?';
     const values = [id];
 
@@ -70,6 +104,7 @@ const Anuncio = {
   },
 
 };
+
 
 module.exports = Anuncio;
 
