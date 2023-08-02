@@ -1,6 +1,4 @@
-
 const Anuncio = require('../models/anuncioModel');
-
 
 exports.index = async (req, res) => {
   const username = req.session.username;

@@ -8,7 +8,7 @@ const session = require('express-session');
 // Configuração do middleware de sessão
 router.use(
   session({
-    secret: 'seu_secret_aqui',
+    secret: '12345',
     resave: false,
     saveUninitialized: false
   })

@@ -47,16 +47,14 @@ exports.salvarAnuncio = (req, res) => {
   }
 
   const imagem = req.file.filename;
-  const { titulo, descricao, preco, categoria, contato } = req.body;
+  const { titulo, descricao, preco, contato } = req.body;
   const pessoa_idpessoa = req.session.pessoa_idpessoa;
-  const categoria_idcategoria = parseInt(categoria);
-
   const anuncioData = {
     imagem,
     titulo,
     descricao,
     preco,
-    categoria_idcategoria,
+    categoria_nome,
     contato,
     pessoa_idpessoa,
   };

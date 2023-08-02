@@ -1,12 +1,14 @@
 // Importe o módulo mysql2
 const mysql = require('mysql2');
+const connection = require('./db');
+
 // Crie uma conexão com o banco de dados
-const connection = mysql.createConnection({
+/*const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '02092005',
   database: 'ruralmarket'
-});
+});*/
 
 const Anuncio = {
   saveAnuncio: (anuncioData, callback) => {
@@ -26,29 +28,30 @@ const Anuncio = {
     });
   },
   
-  getAnunciosPorCategoria: function (callback) {
-    const query = 'SELECT * FROM anuncio WHERE categoria_idcategoria IS NOT NULL';
-
-    connection.query(query, (err, results) => {
-      if (err) {
-        console.error('Erro ao obter os anúncios por categoria:', err);
-        return callback(err, null);
-      }
-
-      const anunciosPorCategoria = {};
-
-      results.forEach((anuncio) => {
-        const categoriaId = anuncio.categoria_idcategoria;
-        if (!anunciosPorCategoria[categoriaId]) {
-          anunciosPorCategoria[categoriaId] = [];
+  getAnunciosPorCategoria : function (callback) {
+      const query = 'SELECT anuncio.*, categoria.nome AS categoria_nome FROM anuncio JOIN categoria ON anuncio.categoria_idcategoria = categoria.idcategoria';
+      connection.query(query, (err, results) => {
+        if (err) {
+          console.error('Erro ao obter os anúncios por categoria:', err);
+          return callback(err);
         }
-        anunciosPorCategoria[categoriaId].push(anuncio);
+    
+        // Organize os anúncios por categoria antes de retornar
+        const anunciosPorCategoria = {};
+    
+        results.forEach((anuncio) => {
+          const { categoria_nome, ...rest } = anuncio;
+          if (!anunciosPorCategoria[categoria_nome]) {
+            anunciosPorCategoria[categoria_nome] = [rest];
+          } else {
+            anunciosPorCategoria[categoria_nome].push(rest);
+          }
+        });
+    
+        return callback(null, anunciosPorCategoria);
       });
-
-      // Corrigir a chamada do callback para passar os dados corretamente
-      callback(null, anunciosPorCategoria);
-    });
   },
+  
   getAnunciosPorPessoa: (pessoaId, callback) => {
     const query = 'SELECT * FROM anuncio WHERE pessoa_idpessoa = ?';
     const values = [pessoaId];

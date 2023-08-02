@@ -10,20 +10,19 @@ const connection = mysql.createConnection({
     database: 'ruralmarket'
   });
   connection.connect();
-
+  
 const Categoria = {
-  getAllCategorias: () => {
-    return new Promise((resolve, reject) => {
-      const query = 'SELECT * FROM categoria'; // Supondo que sua tabela de categorias se chame "categoria"
-      connection.query(query, (err, results) => {
-        if (err) {
-          console.error('Erro ao obter categorias:', err);
-          return reject(err);
-        }
-        resolve(results);
-      });
+  // Função para obter todas as categorias do banco de dados
+  getAllCategorias: (callback) => {
+    const query = 'SELECT * FROM categoria';
+    connection.query(query, (err, results) => {
+      if (err) {
+        console.error('Erro ao obter as categorias:', err);
+        return callback(err, null);
+      }
+
+      return callback(null, results);
     });
   },
 };
-
 module.exports = Categoria;

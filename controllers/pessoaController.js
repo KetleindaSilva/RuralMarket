@@ -63,16 +63,14 @@ exports.login = (req, res) => {
         req.session.pessoa_idpessoa = pessoa.idpessoa;
     
         // Obter os anúncios da pessoa logada usando o ID da pessoa
-        Anuncio.getAnunciosPorPessoa(pessoa.idpessoa, (err, anuncios) => {
+        Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
           if (err) {
-            console.error('Erro ao obter os anúncios da pessoa:', err);
+            console.error('Erro ao obter os anúncios por categoria:', err);
             return res.status(500).json({ error: 'Erro ao realizar o login' });
           }
     
-          console.log(anuncios); // Verificar a estrutura da variável anuncios
-    
           const successMessage = `Parabéns, ${pessoa.usuario}, você está logado!`;
-          res.render('telaPrincipal/telaPrincipal', { successMessage, pessoaLogada: true, anuncios });
+          res.render('telaPrincipal/telaPrincipal', { successMessage, pessoaLogada: true, anunciosPorCategoria });
         });
       } else {
         const message = 'Senha incorreta';
@@ -86,16 +84,13 @@ exports.renderTelaPrincipal = (req, res) => {
   Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
     if (err) {
       console.error('Erro ao obter os anúncios por categoria:', err);
-      // Tratar o erro de acordo com a lógica da sua aplicação
       return res.status(500).json({ error: 'Erro ao obter os anúncios por categoria' });
     }
-    console.log(anunciosPorCategoria); // Adicione esta linha para verificar os dados
+
     // Renderizar a página "telaPrincipal" com os dados dos anúncios por categoria
-    res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria: anunciosPorCategoria });
- // Verifique se a variável "anunciosPorCategoria" está sendo passada corretamente aqui
+    res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria });
   });
 };
-
 
 
 
