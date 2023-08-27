@@ -37,4 +37,7 @@ router.post('/login', pessoaController.login);
 // Rota para exibir a página principal
 router.get('/', pessoaController.renderTelaPrincipal);
 
+// Rota para fazer logout
+router.get('/logout', pessoaController.logout);
+
 module.exports = router;

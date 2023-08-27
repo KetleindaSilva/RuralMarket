@@ -42,6 +42,7 @@ const Anuncio = {
         results.forEach((anuncio) => {
           const { categoria_nome, ...rest } = anuncio;
           if (!anunciosPorCategoria[categoria_nome]) {
+
             anunciosPorCategoria[categoria_nome] = [rest];
           } else {
             anunciosPorCategoria[categoria_nome].push(rest);
@@ -52,21 +53,18 @@ const Anuncio = {
       });
   },
   
-  getAnunciosPorPessoa: (pessoaId, callback) => {
+  getAnunciosPorPessoa: function (pessoaId, callback) {
     const query = 'SELECT * FROM anuncio WHERE pessoa_idpessoa = ?';
-    const values = [pessoaId];
-
-    connection.query(query, values, (err, results) => {
+    connection.query(query, [pessoaId], (err, results) => {
       if (err) {
         console.error('Erro ao obter os anúncios da pessoa:', err);
-        return callback(err, null);
+        return callback(err);
       }
 
-      // Retorne os anúncios da pessoa
-      callback(null, results);
+      return callback(null, results);
     });
   },
-  getDetalhes: (id, callback) => {
+  getDetalhes:function (callback) {
     // Lógica para obter os detalhes do anúncio com base no ID
     const query = 'SELECT * FROM anuncio WHERE idanuncio = ?';
     const values = [id];
@@ -85,10 +83,33 @@ const Anuncio = {
       return callback(null, anuncio);
     });
   },
+  getDetalhesDoAnuncio: (anuncioId) => {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM anuncio WHERE id = ?';
+      connection.query(query, [anuncioId], (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(results[0]);
+      });
+    });
+  },
+
+  // Função para obter mais anúncios do mesmo produtor
+  getAnunciosDoMesmoProdutor: (pessoaId) => {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM anuncio WHERE pessoa_id = ? LIMIT 5';
+      connection.query(query, [pessoaId], (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(results);
+      });
+    });
+  },
   findById: async (anuncioId) => {
     return new Promise((resolve, reject) => {
-      // Execute a lógica para consultar o banco de dados ou acessar uma API e obter os detalhes do anúncio com o ID fornecido
-      // Por exemplo, você pode usar o módulo mysql2 para consultar o banco de dados
+    
       connection.query('SELECT * FROM anuncio WHERE idanuncio = ?', [anuncioId], (err, results) => {
         if (err) {
           console.error('Erro ao obter detalhes do anúncio:', err);

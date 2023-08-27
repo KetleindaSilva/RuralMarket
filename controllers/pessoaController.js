@@ -34,7 +34,7 @@ exports.criarPessoa = (req, res) => {
 
 
 exports.login = (req, res) => {
-  const { email, senha } = req.body;
+  const{ email, senha } = req.body;
 
   const query = 'SELECT * FROM pessoa WHERE email = ?';
   const values = [email];
@@ -80,6 +80,7 @@ exports.login = (req, res) => {
   });
 };
 exports.renderTelaPrincipal = (req, res) => {
+  
   // Obter os anúncios por categoria usando o modelo "Anuncio"
   Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
     if (err) {
@@ -90,6 +91,13 @@ exports.renderTelaPrincipal = (req, res) => {
     // Renderizar a página "telaPrincipal" com os dados dos anúncios por categoria
     res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria });
   });
+};
+
+exports.logout = (req, res) => {
+  delete req.session.username;
+  delete req.session.pessoa_idpessoa;
+
+  res.redirect('/login');
 };
 
 

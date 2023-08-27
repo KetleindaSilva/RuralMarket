@@ -1,22 +1,44 @@
 const Anuncio = require('../models/anuncioModel');
+const Categoria = require('../models/categoriaModel');
 
 exports.index = async (req, res) => {
   const username = req.session.username;
-  const successMessage = req.flash('success')[0]; // Obtém a mensagem de sucesso da sessão
+  const successMessage = req.flash('success')[0];
 
   try {
-    // Obter a lista de categorias e anúncios
-    Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+    Categoria.getAllCategorias((err, categorias) => {
       if (err) {
-        console.error('Erro ao obter os anúncios por categoria:', err);
-        return res.status(500).json({ error: 'Erro ao buscar os anúncios' });
+        console.error('Erro ao obter as categorias:', err);
+        return res.status(500).json({ error: 'Erro ao buscar as categorias' });
       }
 
-      // Renderiza a página principal com o nome da pessoa e a lista de categorias e anúncios
-      res.render('telaPrincipal/telaPrincipal', { username, successMessage, anunciosPorCategoria });
+      // Obtém os anúncios da pessoa logada usando o ID da pessoa
+      Anuncio.getAnunciosPorPessoa(req.session.pessoa_idpessoa, (err, anunciosPorPessoa) => {
+        if (err) {
+          console.error('Erro ao obter os anúncios da pessoa:', err);
+          return res.status(500).json({ error: 'Erro ao buscar os anúncios da pessoa' });
+        }
+
+        // Obtém os anúncios por categoria
+        Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+          if (err) {
+            console.error('Erro ao obter os anúncios por categoria:', err);
+            return res.status(500).json({ error: 'Erro ao buscar os anúncios por categoria' });
+          }
+
+          // Renderiza a página principal com as informações necessárias
+          res.render('telaPrincipal/telaPrincipal', {
+            username,
+            successMessage,
+            categorias,
+            anunciosPorPessoa,
+            anunciosPorCategoria
+          });
+        });
+      });
     });
   } catch (err) {
-    console.error('Erro ao obter os anúncios por categoria:', err);
-    res.status(500).json({ error: 'Erro ao buscar os anúncios' });
+    console.error('Erro ao obter as categorias:', err);
+    res.status(500).json({ error: 'Erro ao buscar as categorias' });
   }
 };

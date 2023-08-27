@@ -1,4 +1,6 @@
 const User = require('../models/pessoaModel');
+const Anuncio = require('../models/anuncioModel')
+
 
 const authController = {
   login(req, res) {
@@ -14,7 +16,8 @@ const authController = {
     res.render('telaPrincipal/cadastro', { message, pessoaLogada });
   },
   detalhes(req, res) {
-    res.render('telaPrincipal/detalhesProduto');
+    const anuncio = Anuncio.getDetalhes(Anuncio);
+    res.render('telaPrincipal/detalhesProduto',{anuncio});
   }
 };
 

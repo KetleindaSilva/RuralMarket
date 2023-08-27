@@ -25,14 +25,15 @@ router.get('/anuncio/novo', anuncioController.exibirFormulario);
 // Rota para salvar o anúncio
 router.post('/anuncio', upload.single('imagem'), anuncioController.salvarAnuncio);
 
-// Rota para exibir os detalhes do anúncio
-router.get('/anuncio/detalhes/:anuncioId', anuncioController.detalhes);
 
 // Rota para exibir a página principal
 router.get('/telaPrincipal', anuncioController.exibirTelaPrincipal);
 
 // Rota para exibir a página principal
 router.get('/', mainController.index);
+
+// Rota para exibir os detalhes do anúncio
+router.get('/anuncio/:id', anuncioController.exibirDetalhesAnuncio);
 
 
 module.exports = router;

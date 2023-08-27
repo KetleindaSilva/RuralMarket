@@ -19,64 +19,12 @@
         height: 250px;
     }
 </style>
-
-<body>
-
     <header>
-
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#89A621">
-            <div class="container-fluid">
-                <a class=" ms-4 navbar-brand" href="#">
-                    <img src="./Imagens/logo.png" alt="logo" class="rounded-circle img-fluid" width="60" height="60">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav text-center mb-lg-0 mb-3">
-                        <li class="nav-item dropdown  align-self-center me-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Categorias
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#frutas">Frutas</a></li>
-                                <li><a class="dropdown-item" href="#legumes">Legumes</a></li>
-                                <li><a class="dropdown-item" href="#verduras">Verduras</a></li>
-                                <li><a class="dropdown-item" href="#coloniais">Coloniais</a></li>
-                                <li><a class="dropdown-item" href="#alimento">Alimento Animal</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item align-self-center ms-2 me-2 mb-lg-0 mb-3">
-                            <button class="btn btn-outline-success text-white me-3" type="submit"><a
-                                    style="text-decoration: none;list-style: none;" class="text-white "
-                                    href="/anuncio/novo">Anunciar</a></button>
-                        </li>
-                        <form class="nav-item d-flex align-self-center ms-5 mb-lg-0 mb-3" role="search">
-                            <input class="form-control me-1" type="search" placeholder="Pesquisar" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Pesquisar</button>
-                        </form>
-                        <li class="nav-item align-self-center ms-3 me-2 mb-lg-0 mb-3">
-                            <button type="button" class="btn btn-outline-light align-items-center"
-                                style="background-color:#ffff;">
-                                <a style="text-decoration:none;list-style: none;color: #89A621;"
-                                    onclick="window.location.href='/login'">Entrar</a>
-                            </button>
-                            <button type="button" class="btn btn-outline-light" style="background-color:#ffff;">
-                                <a style="text-decoration: none;list-style: none;color: #89A621;"
-                                    onclick="window.location.href='/cadastro'">Cadastrar</a>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <%- include ('header'); %>
     </header>
 
-
     <main>
-        <div class="container">
+        <div class="container" style="padding-top:20vh;">
 
             <div class="mt-5 row text-center">
                 <h2 class="fs-2 fw-bold text-success ">Destaques</h2>
@@ -111,216 +59,52 @@
             </div>
 
 
-                    <div class="container-fluid">
+            <div class="container-fluid">
 
-                        <div class="mt-5 row text-center" id="frutas">
-                            <h2 class="fs-2 text-success fw-bold">Frutas</h2>
+                <div class="row justify-content-start pt-2 card-deck">
+
+
+
+                    <% Object.keys(anunciosPorCategoria).forEach((categoriaNome)=> { %>
+                        <div class="mt-5 row text-center" id="<%= categoriaNome %>">
+                            <h2 class="fs-2 text-success fw-bold">
+                                <%= categoriaNome.charAt(0).toUpperCase() + categoriaNome.slice(1) %>
+                            </h2>
                         </div>
                         <div class="row justify-content-start pt-2 card-deck">
+                            <% anunciosPorCategoria[categoriaNome].forEach((anuncio)=> { %>
+                                <div
+                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                                    <div class="card text-center bg-light border-success border border-1">
+                                        <img src="<%= anuncio.imagem %>" class="card-img-top w-100 card-img-half-height"
+                                            alt="Card Image">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title text-center">
+                                                <%= anuncio.titulo %>
+                                            </h5>
 
-
-
-                                <% Object.keys(anunciosPorCategoria).forEach((categoriaNome) => { %>
-                                  <div class="mt-5 row text-center" id="<%= categoriaNome %>">
-                                    <h2 class="fs-2 text-success fw-bold">
-                                      <%= categoriaNome.charAt(0).toUpperCase() + categoriaNome.slice(1) %>
-                                    </h2>
-                                  </div>
-                                  <div class="row justify-content-start pt-2 card-deck">
-                                    <% anunciosPorCategoria[categoriaNome].forEach((anuncio) => { %>
-                                      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                        <div class="card text-center bg-light border-success border border-1">
-                                          <img src="<%= anuncio.imagem %>" class="card-img-top w-100 card-img-half-height" alt="Card Image">
-                                          <div class="card-body text-center">
-                                            <h5 class="card-title text-center"><%= anuncio.titulo %></h5>
-                                            <p class="card-text"><%= anuncio.descricao %></p>
-                                            <a href="#" class="btn text-center btn-success">Detalhes</a>
-                                          </div>
+                                            <a href="/detalhes" class="btn text-center btn-success">Detalhes</a>
                                         </div>
-                                      </div>
-                                    <% }); %>
-                                  </div>
+                                    </div>
+                                </div>
                                 <% }); %>
-                              
-
-                                        
-
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/mudabananaroxa.jpeg"
-                                                            class="card-img-top w-100 card-img-half-height"
-                                                            alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Muda Banana Roxa</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/banana nanica.jpeg"
-                                                            class="card-img-top img-fluid card-img-half-height"
-                                                            alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Banana Nanica</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/laranja do céu.webp"
-                                                            class="card-img-top img-fluid card-img-half-height"
-                                                            alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Laranja do céu</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/mamão.jpg"
-                                                            class="card-img-top img-fluid card-img-half-height"
-                                                            alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Mamão</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/maracuja.jpg"
-                                                            class="card-img-top img-fluid card-img-half-height"
-                                                            alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Maracujá</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/limão taiti.jpg"
-                                                            class="card-img-top img-fluid card-img-half-height"
-                                                            alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Limão Taiti</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/bergamota pokan.jpg"
-                                                            class="card-img-top card-img-half-height" alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Bergamota Pokan</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/melancia.jpeg"
-                                                            class="card-img-top card-img-half-height" alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Melancia</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/morango.jpeg"
-                                                            class="card-img-top card-img-half-height" alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Morango</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/Uva verde.jpg"
-                                                            class="card-img-top card-img-half-height" alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Uva Verde</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                                    <div
-                                                        class="card text-center bg-light border-success border border-1">
-                                                        <img src="./Imagens/goiaba"
-                                                            class="card-img-top card-img-half-height" alt="Card Image">
-                                                        <div class="card-body text-center">
-                                                            <h5 class="card-title text-center">Goiaba</h5>
-
-                                                            <a href="#"
-                                                                class=" btn text-center btn-success">Detalhes</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                         </div>
+                        <% }); %>
 
 
-                        <div class="mt-5 row text-center" id="legumes">
-                            <h2 class="fs-2 text-success fw-bold">Legumes</h2>
-                        </div>
-                        <div class="row justify-content-start pt-2">
+
+
+
+                            <div class="mt-5 row text-center" id="frutas">
+                                <h2 class="fs-2 text-success fw-bold">Frutas</h2>
+                            </div>
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/aipim.jpeg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
+                                    <img src="./Imagens/mudabananaroxa.jpeg"
+                                        class="card-img-top w-100 card-img-half-height" alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Aipim</h5>
+                                        <h5 class="card-title text-center">Muda Banana Roxa</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -329,10 +113,23 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/moranga cabotia.jpg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
+                                    <img src="./Imagens/banana nanica.jpeg"
+                                        class="card-img-top img-fluid card-img-half-height" alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Moranga Cabotiá</h5>
+                                        <h5 class="card-title text-center">Banana Nanica</h5>
+
+                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                                <div class="card text-center bg-light border-success border border-1">
+                                    <img src="./Imagens/laranja do céu.webp"
+                                        class="card-img-top img-fluid card-img-half-height" alt="Card Image">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title text-center">Laranja do céu</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -341,10 +138,10 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/beterraba.jpg" class="card-img-top card-img-half-height "
+                                    <img src="./Imagens/mamão.jpg" class="card-img-top img-fluid card-img-half-height"
                                         alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Beterraba</h5>
+                                        <h5 class="card-title text-center">Mamão</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -353,10 +150,10 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/pepino salada.jpg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
+                                    <img src="./Imagens/maracuja.jpg"
+                                        class="card-img-top img-fluid card-img-half-height" alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Pepino Salada</h5>
+                                        <h5 class="card-title text-center">Maracujá</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -365,10 +162,10 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/feijão preto.avif" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
+                                    <img src="./Imagens/limão taiti.jpg"
+                                        class="card-img-top img-fluid card-img-half-height" alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Feijão Top</h5>
+                                        <h5 class="card-title text-center">Limão Taiti</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -377,34 +174,10 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/rabanete" class="card-img-top card-img-half-height"
+                                    <img src="./Imagens/bergamota pokan.jpg" class="card-img-top card-img-half-height"
                                         alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Rabanete</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/feijão.jpg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Feijão</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/moranga.webp" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Moranga</h5>
+                                        <h5 class="card-title text-center">Bergamota Pokan</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -413,10 +186,10 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/pepino" class="card-img-top card-img-half-height"
+                                    <img src="./Imagens/melancia.jpeg" class="card-img-top card-img-half-height"
                                         alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Pepino</h5>
+                                        <h5 class="card-title text-center">Melancia</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -425,28 +198,10 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/batata-doce.jpg" class="card-img-top card-img-half-height"
+                                    <img src="./Imagens/morango.jpeg" class="card-img-top card-img-half-height"
                                         alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Batata Doce</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="mt-5 row text-center" id="verduras">
-                            <h2 class="fs-2 text-success fw-bold">Verduras</h2>
-                        </div>
-                        <div class="row justify-content-start pt-2">
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/brocolis.jpg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Brócolis</h5>
+                                        <h5 class="card-title text-center">Morango</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -455,10 +210,10 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/repolho.jpeg" class="card-img-top card-img-half-height"
+                                    <img src="./Imagens/Uva verde.jpg" class="card-img-top card-img-half-height"
                                         alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Repolho</h5>
+                                        <h5 class="card-title text-center">Uva Verde</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
@@ -467,222 +222,382 @@
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
                                 <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/repolho roxo.jpeg" class="card-img-top card-img-half-height "
+                                    <img src="./Imagens/goiaba" class="card-img-top card-img-half-height"
                                         alt="Card Image">
                                     <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Repolho Roxo</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/couveflor.jpeg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Couve-Flor</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/alface crespa.jpeg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Alface Crespa</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/alafce americana.jpeg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Alface Americana</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/alface roxa.webp" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Alface Roxa</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/rucula.jpg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Rúcula</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-5 row text-center" id="coloniais">
-                            <h2 class="fs-2 text-success fw-bold">Coloniais</h2>
-                        </div>
-                        <div class="row justify-content-start pt-2">
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/aipim.jpeg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Aipim</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/torresmo.jpeg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Torresmo</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/banha.jpeg" class="card-img-top card-img-half-height"
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Banha</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/cana.jpeg" class="card-img-top card-img-half-height "
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Roça de Cana</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/melado.jpeg" class="card-img-top card-img-half-height "
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Melado</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/milho.jpg" class="card-img-top card-img-half-height "
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Roça de Milho</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/mel.jpeg" class="card-img-top card-img-half-height "
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Mel</h5>
-
-                                        <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="./Imagens/rapadura.jpeg" class="card-img-top card-img-half-height "
-                                        alt="Card Image">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title text-center">Rapadura</h5>
+                                        <h5 class="card-title text-center">Goiaba</h5>
 
                                         <a href="#" class=" btn text-center btn-success">Detalhes</a>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="mt-5 row text-center" id="alimento">
-                                <h2 class="fs-2 text-success fw-bold">Alimento Animal</h2>
-                            </div>
-                            <div class="row justify-content-start pt-2">
-                                <div
-                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                    <div class="card text-center bg-light border-success border border-1">
-                                        <img src="./Imagens/roça aipim.jpeg" class="card-img-top card-img-half-height"
-                                            alt="Card Image">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title text-center">Aipim para Trato</h5>
-
-                                            <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                    <div class="card text-center bg-light border-success border border-1">
-                                        <img src="./Imagens/roça milhoo.jpeg" class="card-img-top card-img-half-height"
-                                            alt="Card Image">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title text-center">Milho para Trato</h5>
-                                            <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                    <div class="card text-center bg-light border-success border border-1">
-                                        <img src="./Imagens/roça cana.jpeg" class="card-img-top card-img-half-height"
-                                            alt="Card Image">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title text-center">Cana para Trato</h5>
-                                            <a href="#" class=" btn text-center btn-success">Detalhes</a>
-                                        </div>
-                                    </div>
-                                </div>
+                </div>
 
 
+                <div class="mt-5 row text-center" id="legumes">
+                    <h2 class="fs-2 text-success fw-bold">Legumes</h2>
+                </div>
+                <div class="row justify-content-start pt-2">
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/aipim.jpeg" class="card-img-top card-img-half-height" alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Aipim</h5>
 
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
                             </div>
                         </div>
                     </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/moranga cabotia.jpg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Moranga Cabotiá</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/beterraba.jpg" class="card-img-top card-img-half-height "
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Beterraba</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/pepino salada.jpg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Pepino Salada</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/feijão preto.avif" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Feijão Top</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/rabanete" class="card-img-top card-img-half-height" alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Rabanete</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/feijão.jpg" class="card-img-top card-img-half-height" alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Feijão</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/moranga.webp" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Moranga</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/pepino" class="card-img-top card-img-half-height" alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Pepino</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/batata-doce.jpg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Batata Doce</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-5 row text-center" id="verduras">
+                    <h2 class="fs-2 text-success fw-bold">Verduras</h2>
+                </div>
+                <div class="row justify-content-start pt-2">
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/brocolis.jpg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Brócolis</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/repolho.jpeg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Repolho</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/repolho roxo.jpeg" class="card-img-top card-img-half-height "
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Repolho Roxo</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/couveflor.jpeg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Couve-Flor</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/alface crespa.jpeg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Alface Crespa</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/alafce americana.jpeg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Alface Americana</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/alface roxa.webp" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Alface Roxa</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/rucula.jpg" class="card-img-top card-img-half-height" alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Rúcula</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5 row text-center" id="coloniais">
+                    <h2 class="fs-2 text-success fw-bold">Coloniais</h2>
+                </div>
+                <div class="row justify-content-start pt-2">
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/aipim.jpeg" class="card-img-top card-img-half-height" alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Aipim</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/torresmo.jpeg" class="card-img-top card-img-half-height"
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Torresmo</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/banha.jpeg" class="card-img-top card-img-half-height" alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Banha</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/cana.jpeg" class="card-img-top card-img-half-height " alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Roça de Cana</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/melado.jpeg" class="card-img-top card-img-half-height "
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Melado</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/milho.jpg" class="card-img-top card-img-half-height " alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Roça de Milho</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/mel.jpeg" class="card-img-top card-img-half-height " alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Mel</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                        <div class="card text-center bg-light border-success border border-1">
+                            <img src="./Imagens/rapadura.jpeg" class="card-img-top card-img-half-height "
+                                alt="Card Image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-center">Rapadura</h5>
+
+                                <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 row text-center" id="alimento">
+                        <h2 class="fs-2 text-success fw-bold">Alimento Animal</h2>
+                    </div>
+                    <div class="row justify-content-start pt-2">
+                        <div
+                            class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                            <div class="card text-center bg-light border-success border border-1">
+                                <img src="./Imagens/roça aipim.jpeg" class="card-img-top card-img-half-height"
+                                    alt="Card Image">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title text-center">Aipim para Trato</h5>
+
+                                    <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                            <div class="card text-center bg-light border-success border border-1">
+                                <img src="./Imagens/roça milhoo.jpeg" class="card-img-top card-img-half-height"
+                                    alt="Card Image">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title text-center">Milho para Trato</h5>
+                                    <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
+                            <div class="card text-center bg-light border-success border border-1">
+                                <img src="./Imagens/roça cana.jpeg" class="card-img-top card-img-half-height"
+                                    alt="Card Image">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title text-center">Cana para Trato</h5>
+                                    <a href="#" class=" btn text-center btn-success">Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
 
     </main>
     <!-- Modal de sucesso -->
@@ -714,6 +629,32 @@
                 $('#successModal').modal('show');
             <% } %>
         });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.getElementById("logout-button");
+            const modal = document.getElementById("logout-modal");
+            const confirmLogoutButton = document.getElementById("confirm-logout");
+            const cancelLogoutButton = document.getElementById("cancel-logout");
+
+            if (logoutButton && modal && confirmLogoutButton && cancelLogoutButton) {
+                logoutButton.addEventListener("click", function () {
+                    modal.style.display = "block";
+                });
+
+                confirmLogoutButton.addEventListener("click", function () {
+                    window.location.href = "/logout";
+                });
+
+                cancelLogoutButton.addEventListener("click", function () {
+                    modal.style.display = "none";
+                });
+            }
+        })
+
+
+
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
