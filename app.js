@@ -43,12 +43,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Outras configurações e middlewares da sua aplicação
 
-// Exemplo de rota que utiliza o middleware do Multer para upload de imagens
 app.post('/upload', upload.single('imagem'), (req, res) => {
-  // Aqui você pode acessar o arquivo enviado através de req.file
-  // Por exemplo, para obter o nome do arquivo:
   const nomeArquivo = req.file.filename;
   res.send(`Arquivo ${nomeArquivo} enviado com sucesso!`);
 });
