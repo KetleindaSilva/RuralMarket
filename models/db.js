@@ -1,7 +1,8 @@
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-  host: 'mysql27-farm10.kinghost.net',
+  host: 'mysql.infocimol.com.br
+  ',
   user: 'infocimol06',
   password: 'ruralMarket123',
   database: 'infocimol06'
