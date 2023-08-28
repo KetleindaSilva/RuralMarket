@@ -12,12 +12,6 @@ exports.index = async (req, res) => {
         return res.status(500).json({ error: 'Erro ao buscar as categorias' });
       }
 
-      // Obtém os anúncios da pessoa logada usando o ID da pessoa
-      Anuncio.getAnunciosPorPessoa(req.session.pessoa_idpessoa, (err, anunciosPorPessoa) => {
-        if (err) {
-          console.error('Erro ao obter os anúncios da pessoa:', err);
-          return res.status(500).json({ error: 'Erro ao buscar os anúncios da pessoa' });
-        }
 
         // Obtém os anúncios por categoria
         Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
@@ -31,12 +25,10 @@ exports.index = async (req, res) => {
             username,
             successMessage,
             categorias,
-            anunciosPorPessoa,
             anunciosPorCategoria
           });
         });
       });
-    });
   } catch (err) {
     console.error('Erro ao obter as categorias:', err);
     res.status(500).json({ error: 'Erro ao buscar as categorias' });

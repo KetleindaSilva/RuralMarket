@@ -17,7 +17,56 @@
 
 <body>
   <header>
-    <%- include ('header'); %>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#89A621">
+      <div class="container-fluid">
+
+        <a class=" ms-4 navbar-brand" >
+          <img onclick="window.location.href='/'" src="./Imagens/logo.png" alt="logo" class="rounded-circle img-fluid"
+            width="60" height="60">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav text-center mb-lg-0 mb-3">
+            <li class="nav-item dropdown  align-self-center me-1">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Categorias
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#frutas">Frutas</a></li>
+                <li><a class="dropdown-item" href="#legumes">Legumes</a></li>
+                <li><a class="dropdown-item" href="#verduras">Verduras</a></li>
+                <li><a class="dropdown-item" href="#coloniais">Coloniais</a></li>
+
+                <li><a class="dropdown-item" href="#alimento">Alimento Animal</a></li>
+              </ul>
+            </li>
+            <li class="nav-item align-self-center ms-2 me-2 mb-lg-0 mb-3">
+              <button class="btn btn-outline-success text-white me-3" type="submit"><a
+                  style="text-decoration: none;list-style: none;" class="text-white "
+                  href="/anuncio/novo">Anunciar</a></button>
+            </li>
+            <form class="nav-item d-flex align-self-center ms-5 mb-lg-0 mb-3" role="search">
+              <input class="form-control me-1" type="search" placeholder="Pesquisar" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+            </form>
+            <li class="nav-item align-self-center ms-3 me-2 mb-lg-0 mb-3">
+              <button type="button" class="btn btn-outline-light align-items-center" style="background-color:#ffff;">
+                <a style="text-decoration:none;list-style: none;color: #89A621;"
+                  onclick="window.location.href='/login'">Entrar</a>
+              </button>
+              <button type="button" class="btn btn-outline-light" style="background-color:#ffff;">
+                <a style="text-decoration: none;list-style: none;color: #89A621;"
+                  onclick="window.location.href='/cadastro'">Cadastrar</a>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+      </div>
 </header>
   <div class="container " style="height:80vh; padding-top:20vh;">
     <div class="row align-items-center">
