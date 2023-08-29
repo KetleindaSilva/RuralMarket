@@ -9,14 +9,9 @@ const multer = require('multer');
 const anuncioRoutes = require('./routes/anuncio');
 const pessoaRoutes = require('./routes/pessoa');
 
-
-
-
-
-
-
 // Importando os controllers
 const mainController = require('./controllers/mainController');
+
 const authController = require('./controllers/authController');
 
 

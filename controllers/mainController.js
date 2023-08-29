@@ -13,22 +13,22 @@ exports.index = async (req, res) => {
       }
 
 
-        // Obtém os anúncios por categoria
-        Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
-          if (err) {
-            console.error('Erro ao obter os anúncios por categoria:', err);
-            return res.status(500).json({ error: 'Erro ao buscar os anúncios por categoria' });
-          }
+      // Obtém os anúncios por categoria
+      Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+        if (err) {
+          console.error('Erro ao obter os anúncios por categoria:', err);
+          return res.status(500).json({ error: 'Erro ao buscar os anúncios por categoria' });
+        }
 
-          // Renderiza a página principal com as informações necessárias
-          res.render('telaPrincipal/telaPrincipal', {
-            username,
-            successMessage,
-            categorias,
-            anunciosPorCategoria
-          });
+        // Renderiza a página principal com as informações necessárias
+        res.render('telaPrincipal/telaPrincipal', {
+          username,
+          successMessage,
+          categorias,
+          anunciosPorCategoria
         });
       });
+    });
   } catch (err) {
     console.error('Erro ao obter as categorias:', err);
     res.status(500).json({ error: 'Erro ao buscar as categorias' });

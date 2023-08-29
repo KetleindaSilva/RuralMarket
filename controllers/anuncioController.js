@@ -72,21 +72,15 @@ exports.salvarAnuncio = (req, res) => {
 
 exports.exibirTelaPrincipal = (req, res) => {
 
-  Anuncio.getAnunciosPorPessoa(req.session.pessoa_idpessoa, (err, anunciosPorPessoa) => {
-    if (err) {
-      console.error('Erro ao obter os anúncios da pessoa:', err);
-      return res.status(500).json({ error: 'Erro ao obter os anúncios da pessoa' });
-    }
-
+ 
     Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
       if (err) {
         console.error('Erro ao obter os anúncios por categoria:', err);
         return res.status(500).json({ error: 'Erro ao obter os anúncios por categoria'});
       }
 
-      res.render('telaPrincipal/telaPrincipal', { anunciosPorPessoa, anunciosPorCategoria });
+      res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria });
     });
-  });
 };
 
 exports.exibirDetalhesAnuncio = async (req, res) => {

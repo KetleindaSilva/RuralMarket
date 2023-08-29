@@ -3,6 +3,7 @@ const router = express.Router();
 const anuncioController = require('../controllers/anuncioController');
 const mainController = require('../controllers/mainController');
 
+
 // Importar o modelo de anúncio
 const Anuncio = require('../models/anuncioModel');
 
@@ -20,6 +21,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+// Rota para exibir a página principal
+router.get('/', mainController.index);
+
 router.get('/anuncio/novo', anuncioController.exibirFormulario);
 
 // Rota para salvar o anúncio
@@ -27,10 +32,8 @@ router.post('/anuncio', upload.single('imagem'), anuncioController.salvarAnuncio
 
 
 // Rota para exibir a página principal
-router.get('/telaPrincipal', anuncioController.exibirTelaPrincipal);
+router.get('/', anuncioController.exibirTelaPrincipal);
 
-// Rota para exibir a página principal
-router.get('/', mainController.index);
 
 // Rota para exibir os detalhes do anúncio
 router.get('/anuncio/:id', anuncioController.exibirDetalhesAnuncio);
