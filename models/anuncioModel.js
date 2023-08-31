@@ -28,7 +28,7 @@ const Anuncio = {
     });
   },
   
-  getAnunciosPorCategoria : function (callback) {
+  getAnunciosPorCategoria : (callback) =>{
       const query = 'SELECT anuncio.*, categoria.nome AS categoria_nome FROM anuncio JOIN categoria ON anuncio.categoria_idcategoria = categoria.idcategoria';
       connection.query(query, (err, results) => {
         if (err) {
@@ -52,7 +52,19 @@ const Anuncio = {
         return callback(null, anunciosPorCategoria);
       });
   },
-  
+  getTodosAnuncios: (callback) => {
+    const query = 'SELECT * FROM anuncio';
+    
+    connection.query(query, (err, results) => {
+      if (err) {
+        console.error('Erro ao obter todos os anúncios:', err);
+        return callback(err, null);
+      }
+
+      const todosAnuncios = results;
+      callback(null, todosAnuncios);
+    });
+  },
   getAnunciosPorPessoa: function (pessoaId, callback) {
     const query = 'SELECT * FROM anuncio WHERE pessoa_idpessoa = ?';
     connection.query(query, [pessoaId], (err, results) => {

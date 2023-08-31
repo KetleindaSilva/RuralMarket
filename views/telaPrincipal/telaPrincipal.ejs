@@ -59,29 +59,22 @@
                         <% if (pessoaLogada) { %>
                             <button type="button" class="btn btn-outline-light align-items-center"
                                 style="background-color:#ffff;">
-                                <a style="text-decoration:none;list-style: none;color: #89A621;" href="#"
+                                <a style="text-decoration:none;list-style: none;color: #89A621;" href="/logout"
                                     id="logout-button">Sair</a>
                             </button>
-                            <div id="logout-modal" class="modal">
-                                <div class="modal-content">
-                                    <p>Deseja realmente sair?</p>
-                                    <button id="confirm-logout">Sim</button>
-                                    <button id="cancel-logout">Cancelar</button>
-                                </div>
-                            </div>
-                        <% }else {%>
+                            <% } %>
                                 <% if (!pessoaLogada) { %>
                                     <button type="button" class="btn btn-outline-light align-items-center"
                                         style="background-color:#ffff;">
                                         <a style="text-decoration:none;list-style: none;color: #89A621;"
-                                            onclick="window.location.href='/login'">Entrar</a>
+                                            onclick="window.location.href='/login'">Entrar </a>
                                     </button>
                                     <button type="button" class="btn btn-outline-light" style="background-color:#ffff;">
                                         <a style="text-decoration: none;list-style: none;color: #89A621;"
                                             onclick="window.location.href='/cadastro'">Cadastrar</a>
                                     </button>
                                 <% } %>
-                            <% } %>
+                          
                     </li>
                 </ul>
             </div>
@@ -140,8 +133,8 @@
                         <% anunciosPorCategoria[categoriaNome].forEach((anuncio)=> { %>
                             <div
                                 class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-3 d-flex align-items-stretch justify-content-center p-2">
-                                <div class="card text-center bg-light border-success border border-1">
-                                    <img src="<%= anuncio.imagem %>" class="card-img-top w-100 card-img-half-height"
+                                <div class="card text-center bg-light border-success border border-1 w-100">
+                                    <img src="<%= anuncio.imagem %>" class="card-img-top w-100 card-img-half-height" style="width: 100%;"
                                         alt="Card Image">
                                     <div class="card-body text-center">
                                         <h5 class="card-title text-center">
@@ -680,13 +673,13 @@
     crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-            <% if (successMessage) { %>
+            if (successMessage) {
             $('#successModal').modal('show');
-            <% } %>
+             } 
         });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    /*document.addEventListener("DOMContentLoaded", function () {
         const logoutButton = document.getElementById("logout-button");
         const modal = document.getElementById("logout-modal");
         const confirmLogoutButton = document.getElementById("confirm-logout");

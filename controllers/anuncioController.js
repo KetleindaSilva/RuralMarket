@@ -71,17 +71,21 @@ exports.salvarAnuncio = (req, res) => {
 };
 
 exports.exibirTelaPrincipal = (req, res) => {
+  // Obter todos os anúncios usando o modelo "Anuncio"
+  Anuncio.getTodosAnuncios((err, todosAnuncios) => {
+    if (err) {
+      console.error('Erro ao obter todos os anúncios:', err);
+      // Tratar o erro de acordo com a lógica da sua aplicação
+      return res.status(500).json({ error: 'Erro ao obter os anúncios' });
+    }
 
- 
-    Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
-      if (err) {
-        console.error('Erro ao obter os anúncios por categoria:', err);
-        return res.status(500).json({ error: 'Erro ao obter os anúncios por categoria'});
-      }
+    console.log('Todos os anúncios:', todosAnuncios); // Adicione este log para verificar os anúncios obtidos
 
-      res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria });
-    });
+    // Renderizar a página "telaPrincipal" com os dados de todos os anúncios
+    res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria: todosAnuncios });
+  });
 };
+
 
 exports.exibirDetalhesAnuncio = async (req, res) => {
   const anuncioId = req.params.id;

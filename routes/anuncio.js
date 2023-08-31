@@ -21,18 +21,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
 // Rota para exibir a página principal
-router.get('/', mainController.index);
+router.get('/tvh', anuncioController.exibirTelaPrincipal);
+
 
 router.get('/anuncio/novo', anuncioController.exibirFormulario);
 
 // Rota para salvar o anúncio
 router.post('/anuncio', upload.single('imagem'), anuncioController.salvarAnuncio);
-
-
-// Rota para exibir a página principal
-router.get('/', anuncioController.exibirTelaPrincipal);
 
 
 // Rota para exibir os detalhes do anúncio

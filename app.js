@@ -8,9 +8,7 @@ const multer = require('multer');
 
 const anuncioRoutes = require('./routes/anuncio');
 const pessoaRoutes = require('./routes/pessoa');
-
-// Importando os controllers
-const mainController = require('./controllers/mainController');
+const mainController = require('./controllers/mainController')
 
 const authController = require('./controllers/authController');
 
@@ -54,6 +52,9 @@ app.use(session({
 app.use(flash());
 
 
+app.get('/', (req, res) => {
+  res.render('telaPrincipal/telaPrincipal');
+});
 // Configurando as rotas
 app.get('/', mainController.index);
 app.get('/login', authController.login);
@@ -64,9 +65,6 @@ app.use('/', anuncioRoutes);
 // Rota principal
 
 
-app.get('/', (req, res) => {
-  res.render('telaPrincipal/telaPrincipal');
-});
 
 
 // Configuração do servidor

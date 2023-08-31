@@ -27,7 +27,7 @@ exports.criarPessoa = (req, res) => {
       
       req.session.username = usuario;
       const successMessage = `Parabéns, ${usuario}, seu cadastro foi realizado com sucesso!`;
-      res.render('telaPrincipal/telaPrincipal', { successMessage });
+      res.render('telaPrincipal/telaPrincipal', { successMessage ,pessoaLogada:false});
     });
   });
 };
