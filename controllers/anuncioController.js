@@ -6,18 +6,15 @@ exports.exibirFormulario = async (req, res) => {
     return res.redirect('/login'); // Redirecionar para a página de login
   }
   
-
   try {
     const categorias = await Categoria.getAllCategorias(); // Obter todas as categorias do banco de dados
     const message = req.query.message; // Obter a mensagem da query string
-
     res.render('anuncio/anuncioForm', { message, categorias });
   } catch (err) {
     console.error('Erro ao obter categorias:', err);
     return res.status(500).json({ error: 'Erro ao obter categorias' });
   }
 };
-
 exports.criarAnuncio = async (req, res) => {
   // Obtenha as informações do anúncio do req.body
   const { titulo, descricao, preco, categoriaId } = req.body;
@@ -27,7 +24,6 @@ exports.criarAnuncio = async (req, res) => {
   if (!categoriaExiste) {
     return res.status(400).json({ error: 'Categoria não encontrada' });
   }
-
   try {
     // Crie o anúncio no banco de dados, passando o ID da categoria
     const anuncio = await Anuncio.criarAnuncio({ titulo, descricao, preco, categoriaId });
@@ -38,7 +34,6 @@ exports.criarAnuncio = async (req, res) => {
     return res.status(500).json({ error: 'Erro ao criar o anúncio' });
   }
 };
-
 exports.salvarAnuncio = (req, res) => {
   // Verificar se o usuário está autenticado
   if (!req.session.username) {
@@ -58,7 +53,14 @@ exports.salvarAnuncio = (req, res) => {
     contato,
     pessoa_idpessoa,
   };
+  Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+    if (err) {
+      console.error('Erro ao obter os anúncios por categoria:', err);
+      return res.status(500).json({ error: 'Erro ao obter os anúncios por categoria'});
+    }
 
+    res.render('telaPrincipal/telaPrincipal', { anunciosPorPessoa, anunciosPorCategoria });
+  });
   Anuncio.saveAnuncio(anuncioData, (err) => {
     if (err) {
       console.error('Erro ao salvar o anúncio:', err);
@@ -71,37 +73,21 @@ exports.salvarAnuncio = (req, res) => {
 };
 
 exports.exibirTelaPrincipal = (req, res) => {
-  // Obter todos os anúncios usando o modelo "Anuncio"
-  Anuncio.getTodosAnuncios((err, todosAnuncios) => {
+
+  Anuncio.getAnunciosPorPessoa(req.session.pessoa_idpessoa, (err, anunciosPorPessoa) => {
     if (err) {
-      console.error('Erro ao obter todos os anúncios:', err);
-      // Tratar o erro de acordo com a lógica da sua aplicação
-      return res.status(500).json({ error: 'Erro ao obter os anúncios' });
+      console.error('Erro ao obter os anúncios da pessoa:', err);
+      return res.status(500).json({ error: 'Erro ao obter os anúncios da pessoa' });
     }
 
-    console.log('Todos os anúncios:', todosAnuncios); // Adicione este log para verificar os anúncios obtidos
+    Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+      if (err) {
+        console.error('Erro ao obter os anúncios por categoria:', err);
+        return res.status(500).json({ error: 'Erro ao obter os anúncios por categoria'});
+      }
 
-    // Renderizar a página "telaPrincipal" com os dados de todos os anúncios
-    res.render('telaPrincipal/telaPrincipal', { anunciosPorCategoria: todosAnuncios });
+      res.render('telaPrincipal/telaPrincipal', { anunciosPorPessoa, anunciosPorCategoria });
+    });
   });
 };
 
-
-exports.exibirDetalhesAnuncio = async (req, res) => {
-  const anuncioId = req.params.id;
-
-  try {
-    // Obter os detalhes do anúncio com base no ID
-    const anuncioDetalhado = await Anuncio.getDetalhesDoAnuncio(anuncioDetalhado.anuncioId);
-
-    // Obter mais anúncios do mesmo produtor
-    const anunciosDoProdutor = await Anuncio.getAnunciosDoMesmoProdutor(anuncioDetalhado.pessoa_id);
-
-    // Aqui, anunciosPorPessoa não é necessário, você pode removê-lo
-
-    res.render('anuncio/detalhesAnuncio', { anuncioDetalhado, anunciosDoProdutor });
-  } catch (err) {
-    console.error('Erro ao obter os detalhes do anúncio:', err);
-    res.status(500).json({ error: 'Erro ao obter os detalhes do anúncio' });
-  }
-};

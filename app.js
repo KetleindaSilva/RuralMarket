@@ -11,6 +11,7 @@ const pessoaRoutes = require('./routes/pessoa');
 const mainController = require('./controllers/mainController')
 
 const authController = require('./controllers/authController');
+const { getAnunciosPorCategoria } = require('./models/anuncioModel');
 
 
 // Configuração do Body Parser para lidar com dados do formulário
@@ -53,17 +54,16 @@ app.use(flash());
 
 
 app.get('/', (req, res) => {
-  res.render('telaPrincipal/telaPrincipal');
+  res.render('telaPrincipal/telaPrincipal',{anunciosPorCategoria:getAnunciosPorCategoria,username:req.session.usuario});
 });
+app.use('/', pessoaRoutes);
+app.use('/', anuncioRoutes);
 // Configurando as rotas
 app.get('/', mainController.index);
 app.get('/login', authController.login);
 app.get('/cadastro', authController.cadastro);
-app.get('/detalhes', authController.detalhes);
-app.use('/', pessoaRoutes);
-app.use('/', anuncioRoutes);
-// Rota principal
 
+// Rota principal
 
 
 

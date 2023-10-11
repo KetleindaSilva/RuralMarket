@@ -77,7 +77,6 @@ const Anuncio = {
     });
   },
   getDetalhes:function (callback) {
-    // Lógica para obter os detalhes do anúncio com base no ID
     const query = 'SELECT * FROM anuncio WHERE idanuncio = ?';
     const values = [id];
 
@@ -88,7 +87,7 @@ const Anuncio = {
       }
 
       if (results.length === 0) {
-        return callback(null, null); // Anúncio não encontrado
+        return callback(null, null); 
       }
 
       const anuncio = results[0];

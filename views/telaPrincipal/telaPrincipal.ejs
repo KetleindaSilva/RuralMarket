@@ -56,14 +56,14 @@
                     </form>
 
                     <li class="nav-item align-self-center ms-3 me-2 mb-lg-0 mb-3">
-                        <% if (pessoaLogada) { %>
+                        <% if (username) { %>
                             <button type="button" class="btn btn-outline-light align-items-center"
                                 style="background-color:#ffff;">
                                 <a style="text-decoration:none;list-style: none;color: #89A621;" href="/logout"
                                     id="logout-button">Sair</a>
                             </button>
                             <% } %>
-                                <% if (!pessoaLogada) { %>
+                                <% if (!username) { %>
                                     <button type="button" class="btn btn-outline-light align-items-center"
                                         style="background-color:#ffff;">
                                         <a style="text-decoration:none;list-style: none;color: #89A621;"
@@ -657,13 +657,7 @@
                 <h5 class="modal-title" id="successModalLabel">Seja Bem-Vindo(a)!</h5>
 
             </div>
-            <div class="modal-body">
-                <% if (successMessage) { %>
-                    <p>
-                        <%= successMessage %>
-                    </p>
-                    <% } %>
-            </div>
+          
         </div>
     </div>
 </div>
@@ -703,6 +697,38 @@
 
 
 
+</script>
+<script>
+    const username = sessionStorage.getItem('username');
+    if (username) {
+        // Se o usuário está logado, exibe o nome e o botão "Sair"
+        document.getElementById('user-info').innerHTML = `
+            <p>Bem-vindo, ${username}!</p>
+            <button onclick="logout()">Sair</button>
+        `;
+    } else {
+        // Se o usuário não está logado, exibe os botões "Cadastrar" e "Logar"
+        document.getElementById('user-info').innerHTML = `
+            <button onclick="cadastrar()">Cadastrar</button>
+            <button onclick="logar()">Logar</button>
+        `;
+    }
+
+    function cadastrar() {
+        // Redireciona para a página de cadastro
+        window.location.href = '/cadastro'; // Substitua com a URL correta
+    }
+
+    function logar() {
+        // Redireciona para a página de login
+        window.location.href = '/login'; // Substitua com a URL correta
+    }
+
+    function logout() {
+        // Limpa os dados de login e recarrega a página
+        sessionStorage.removeItem('username');
+        window.location.reload();
+    }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 

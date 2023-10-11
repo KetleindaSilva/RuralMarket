@@ -2,7 +2,7 @@ const Anuncio = require('../models/anuncioModel');
 const Categoria = require('../models/categoriaModel');
 
 exports.index = async (req, res) => {
-  const username = req.session.username;
+  const pessoaLogada = req.session.username;
   const successMessage = req.flash('success')[0];
 
   try {
@@ -12,20 +12,28 @@ exports.index = async (req, res) => {
         return res.status(500).json({ error: 'Erro ao buscar as categorias' });
       }
 
-
-      // Obtém os anúncios por categoria
-      Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+      // Obtém os anúncios da pessoa logada usando o ID da pessoa
+      Anuncio.getAnunciosPorPessoa(req.session.pessoa_idpessoa, (err, anunciosPorPessoa) => {
         if (err) {
-          console.error('Erro ao obter os anúncios por categoria:', err);
-          return res.status(500).json({ error: 'Erro ao buscar os anúncios por categoria' });
+          console.error('Erro ao obter os anúncios da pessoa:', err);
+          return res.status(500).json({ error: 'Erro ao buscar os anúncios da pessoa' });
         }
 
-        // Renderiza a página principal com as informações necessárias
-        res.render('telaPrincipal/telaPrincipal', {
-          username,
-          successMessage,
-          categorias,
-          anunciosPorCategoria
+        // Obtém os anúncios por categoria
+        Anuncio.getAnunciosPorCategoria((err, anunciosPorCategoria) => {
+          if (err) {
+            console.error('Erro ao obter os anúncios por categoria:', err);
+            return res.status(500).json({ error: 'Erro ao buscar os anúncios por categoria' });
+          }
+
+          // Renderiza a página principal com as informações necessárias
+          res.render('telaPrincipal/telaPrincipal', {
+            pessoaLogada,
+            successMessage,
+            categorias,
+            anunciosPorPessoa,
+            anunciosPorCategoria
+          });
         });
       });
     });
